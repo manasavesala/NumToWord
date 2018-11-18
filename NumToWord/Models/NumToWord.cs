@@ -6,46 +6,89 @@ namespace NumberToWord.Models
 {
   public static class NumberToWord
   {
-    public static void convertNumToWord(int number)
-    {
-      Dictionary<int, string> wordDictionary = new Dictionary<int, string>();
+    static Dictionary<int, string> dic = new Dictionary<int, string>()
+        {
+          {1, "one"},
+          {2, "two"},
+          {3, "three"},
+          {4, "four"},
+          {5, "five"},
+          {6, "six"},
+          {7, "seven"},
+          {8, "eight"},
+          {9, "nine"},
+          {10, "ten"},
+          {11, "eleven"},
+          {12, "twevel"},
+          {13, "thirteen"},
+          {14, "fourteen"},
+          {15, "fifteen"},
+          {16, "sixteen"},
+          {17, "seventeen"},
+          {18, "eighteen"},
+          {19, "nineteen"},
+          {20, "twenty"},
+          {30, "thirty"},
+          {40, "fourty"},
+          {50, "fifty"},
+          {60, "sixty"},
+          {70, "seventy"},
+          {80, "eighty"},
+          {90, "ninety"},
+          {100, "hundred"}
 
-      wordDictionary.Add(1, "one");
-      wordDictionary.Add(2, "two");
-      wordDictionary.Add(3, "three");
-      wordDictionary.Add(4, "four");
-      wordDictionary.Add(5, "five");
-      wordDictionary.Add(6, "six");
-      wordDictionary.Add(7, "seven");
-      wordDictionary.Add(8, "eight");
-      wordDictionary.Add(9, "nine");
-      wordDictionary.Add(10, "ten");
-      // wordDictionary.Add(20, "twenty");
-      // wordDictionary.Add(30, "thirty");
-      // wordDictionary.Add(40, "fourty");
-      // wordDictionary.Add(50, "fifty");
-      // wordDictionary.Add(60, "sixty");
-      // wordDictionary.Add(70, "seventy");
-      // wordDictionary.Add(80, "eighty");
-      // wordDictionary.Add(90, "ninety");
-      // wordDictionary.Add(100, "hundred");
+         };
 
-        if(wordDictionary.ContainsKey(number)){
-          string word = wordDictionary[number];
-          Console.WriteLine(word);
-        }
+    public static string convertNumToWord(int number)
+    { 
+      if (number > 1000) {
+        return "Not supported";
+      }
 
+      string word = "";
+      number = Math.Abs(number);
+      int numberBackup = number;
+      int length = number.ToString().Length;
+      int[] array = new int[length];
+      for (int i = 0; i < length; i++)
+      {
+        array[i] = number % 10;
+        number /= 10;
+      }
 
+      number = numberBackup;
+      
+      Console.WriteLine($"number = {number}");
+      if(number > 100 && number < 1000)
+      { 
+        int hundredsPlace = array[2];  
+        int tensPlace = array[1] * 10;
+        int onesPlace = array[0];
+        string three = dic[hundredsPlace]  +" "+ dic[100];
+        string two = dic[tensPlace];
+        string one = dic[onesPlace];
+        word = three +" "+two + " " + one ; 
+      }else if(number > 20 && number < 100)
+      { 
+        int hundredsPlace = array[2];  
+        int tensPlace = array[1] * 10;
+        int onesPlace = array[0];
+        string two = dic[tensPlace];
+        string one = dic[onesPlace];
+        word = two + " " + one ; 
+      }else if(number < 20)
+      {
+        word = dic[number];
+      }
+
+      return word;
     }
-
-
 
     public static void Main()
     {
-      Console.WriteLine("Please enter a Number from 1-10:");
+      Console.WriteLine("Please enter a Number from 1-100:");
       int userInputNum = int.Parse(Console.ReadLine());
-      convertNumToWord(userInputNum);
-
+      Console.WriteLine(convertNumToWord(userInputNum));
     }
 
   }
