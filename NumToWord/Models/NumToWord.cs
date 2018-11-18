@@ -41,13 +41,9 @@ namespace NumberToWord.Models
 
          };
 
-    public static string convertNumToWord(int number)
-    { 
-      if (number > 1000) {
-        return "Not supported";
-      }
 
-      string word = "";
+    public static int[] convertNumToDigits(int number)
+    {
       number = Math.Abs(number);
       int numberBackup = number;
       int length = number.ToString().Length;
@@ -58,40 +54,39 @@ namespace NumberToWord.Models
         number /= 10;
       }
 
-      number = numberBackup;
-      
-      Console.WriteLine($"number = {number}");
+      return array;
+    }
 
-      if(number > 1000 && number < 9999)
-      { 
-        int thousandaPlace = array[3];
-        int hundredsPlace = array[2];  
-        int tensPlace = array[1] * 10;
-        int onesPlace = array[0];
-        string four = dic[thousandaPlace]+" "+dic[1000];
-        string three = dic[hundredsPlace]+" "+ dic[100];
-        string two = dic[tensPlace];
-        string one = dic[onesPlace];
-        word = three +" "+two + " " + one ; 
-      }else if(number > 100 && number < 1000)
-      { 
-        int hundredsPlace = array[2];  
-        int tensPlace = array[1] * 10;
-        int onesPlace = array[0];
-        string three = dic[hundredsPlace]  +" "+ dic[100];
-        string two = dic[tensPlace];
-        string one = dic[onesPlace];
-        word = three +" "+two + " " + one ; 
-      }else if(number > 20 && number < 100)
-      { 
-        int tensPlace = array[1] * 10;
-        int onesPlace = array[0];
-        string two = dic[tensPlace];
-        string one = dic[onesPlace];
-        word = two + " " + one ; 
-      }else if(number < 20)
+    public static string convertNumToWord(int number)
+    { 
+      string word = "";
+      if (number > 10000) {
+        return "Not supported";
+      }
+
+      int[] array = convertNumToDigits(number);
+      
+      if(number > 1000)
       {
-        word = dic[number];
+        word += $"{dic[array[3]]} {dic[1000]}";
+        number = number % 1000;
+      }
+
+      if(number > 100)
+      { 
+        word += $" {dic[array[2]]} {dic[100]}";
+        number = number  % 100;
+      } 
+
+      if(number > 20 && number < 100)
+      { 
+        int tensPlace = array[1];
+        int onesPlace = array[0];
+        word += $" {dic[tensPlace * 10]} {dic[onesPlace]}"; 
+      }
+      else if(number < 20)
+      {
+        word += $" {dic[number]}";
       }
 
       return word;
