@@ -8,6 +8,7 @@ namespace NumberToWord.Models
   {
     static Dictionary<int, string> dic = new Dictionary<int, string>()
         {
+          {0, ""},
           {1, "one"},
           {2, "two"},
           {3, "three"},
@@ -60,6 +61,7 @@ namespace NumberToWord.Models
       number = numberBackup;
       
       Console.WriteLine($"number = {number}");
+
       if(number > 1000 && number < 9999)
       { 
         int thousandaPlace = array[3];
@@ -70,7 +72,7 @@ namespace NumberToWord.Models
         string three = dic[hundredsPlace]+" "+ dic[100];
         string two = dic[tensPlace];
         string one = dic[onesPlace];
-        word = four+" "+three +" "+two + " " + one ; 
+        word = three +" "+two + " " + one ; 
       }else if(number > 100 && number < 1000)
       { 
         int hundredsPlace = array[2];  
@@ -82,7 +84,6 @@ namespace NumberToWord.Models
         word = three +" "+two + " " + one ; 
       }else if(number > 20 && number < 100)
       { 
-        int hundredsPlace = array[2];  
         int tensPlace = array[1] * 10;
         int onesPlace = array[0];
         string two = dic[tensPlace];
